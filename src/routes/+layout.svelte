@@ -25,8 +25,8 @@
 				<a href="/" class="text-xl uppercase">SZKK</a>
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
-				<a class="btn btn-sm variant-ghost-surface" href="/login"> Fiók </a>
-				<a class="btn btn-sm variant-ghost-surface" href="/"> Főoldal </a>
+				<a class="btn btn-base variant-ghost-surface" href="/login"> Fiók </a>
+				<a class="btn btn-base variant-ghost-surface" href="/"> Főoldal </a>
 				<form method="POST" action="/set-lang?/setLang" use:enhance>
 					<select
 						class="select rounded-full"
@@ -34,12 +34,8 @@
 						name="lang"
 						bind:value={data.lang}
 					>
-						<option class={data.lang === 'hu' ? 'variant-filled' : 'variant-soft'} value="hu"
-							>HU</option
-						>
-						<option class={data.lang === 'en' ? 'variant-filled' : 'variant-soft'} value="en"
-							>EN</option
-						>
+						<option value="hu">HU</option>
+						<option value="en">EN</option>
 					</select>
 				</form>
 			</svelte:fragment>

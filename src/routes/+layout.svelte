@@ -6,9 +6,14 @@
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
 	import { storePopup } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
+	import { enhance } from '$app/forms';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 
 	export let data;
+
+	function submitOnChange(e: any) {
+		e.target.form.submit();
+	}
 </script>
 
 <!-- App Shell -->
@@ -22,9 +27,21 @@
 			<svelte:fragment slot="trail">
 				<a class="btn btn-sm variant-ghost-surface" href="/login"> Fiók </a>
 				<a class="btn btn-sm variant-ghost-surface" href="/"> Főoldal </a>
-
-				<span class="chip {data.lang === 'hu' ? 'variant-filled' : 'variant-soft'}">HU</span>
-				<span class="chip {data.lang === 'en' ? 'variant-filled' : 'variant-soft'}">EN</span>
+				<form method="POST" action="/set-lang?/setLang" use:enhance>
+					<select
+						class="select rounded-full"
+						on:change={submitOnChange}
+						name="lang"
+						bind:value={data.lang}
+					>
+						<option class={data.lang === 'hu' ? 'variant-filled' : 'variant-soft'} value="hu"
+							>HU</option
+						>
+						<option class={data.lang === 'en' ? 'variant-filled' : 'variant-soft'} value="en"
+							>EN</option
+						>
+					</select>
+				</form>
 			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>

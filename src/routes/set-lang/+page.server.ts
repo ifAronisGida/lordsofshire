@@ -9,7 +9,7 @@ export const actions = {
   setLang: async ({ cookies, request }) => {
     const data = await request.formData();
     const lang = data.get('lang')?.toString();
-    cookies.set('lang', lang!);
+    //cookies.set('lang', lang!);
     throw redirect(302, '/');
   }
 } satisfies Actions;

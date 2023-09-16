@@ -1,6 +1,7 @@
 <script lang="ts">
 	import '../app.postcss';
 	import { AppShell, AppBar } from '@skeletonlabs/skeleton';
+	import { user } from '$lib/firebase';
 
 	// Floating UI for Popups
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
@@ -25,6 +26,7 @@
 				<a href="/" class="text-xl uppercase">SZKK</a>
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
+				{#if $user}<a class="btn btn-base variant-ghost-surface" href="/menu"> Játék </a>{/if}
 				<a class="btn btn-base variant-ghost-surface" href="/login"> Fiók </a>
 				<a class="btn btn-base variant-ghost-surface" href="/"> Főoldal </a>
 				<form method="POST" action="/set-lang?/setLang" use:enhance>
@@ -34,8 +36,7 @@
 						name="lang"
 						bind:value={data.lang}
 					>
-						<option value="hu">HU</option>
-						<option value="en">EN</option>
+						<option value="hu">HU</option>np
 					</select>
 				</form>
 			</svelte:fragment>

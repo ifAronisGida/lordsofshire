@@ -1,28 +1,22 @@
 <script>
+	import AuthCheck from '$lib/components/AuthCheck.svelte';
 	import CrownSVG from '$lib/components/CrownSVG.svelte';
-	import { user } from '$lib/firebase';
 </script>
 
-<div class="container h-full mx-auto flex justify-center items-center">
-	<div class="space-y-10 text-center flex flex-col items-center">
-		<h2 class="h2">Helló SzKK (Szent Korona Kereső)</h2>
-		<!-- Animated Logo -->
-		<div class="animate-bounce">
-			<div class="img-bg" />
-			<div class="">
-				<CrownSVG />
+<AuthCheck>
+	<div class="container h-full mx-auto flex justify-center items-center hover:">
+		<div class="space-y-10 text-center flex flex-col items-center">
+			<h2 class="h2">Fejlesztés alatt..</h2>
+			<!-- Animated Logo -->
+			<div class="animate-spin">
+				<div class="img-bg" />
+				<div class="">
+					<CrownSVG />
+				</div>
 			</div>
 		</div>
-		<!-- / -->
-		<div class="flex justify-center space-x-2">
-			{#if $user}
-				<a class="btn variant-filled" href="/menu"> JÁTÉK </a>
-			{:else}
-				<a class="btn variant-filled" href="/login"> BELÉPÉS </a>
-			{/if}
-		</div>
 	</div>
-</div>
+</AuthCheck>
 
 <style lang="postcss">
 	.img-bg {

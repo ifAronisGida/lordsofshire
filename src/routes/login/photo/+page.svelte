@@ -22,7 +22,7 @@
 </script>
 
 <AuthCheck>
-	<h2 class="card-title">Upload a Profile Photo</h2>
+	<h2 class="card-title">Kép feltöltése</h2>
 
 	<form class="w-full">
 		<div class="form-control w-full max-w-xs my-10 mx-auto">
@@ -38,8 +38,8 @@
 				name="photoURL"
 				type="file"
 				class="w-full max-w-xs mt-10"
-				accept="image/png, image/jpeg, image/gif, image/webp"
-			/>
+				accept="image/png, image/jpeg, image/gif, image/webp">Válassz egy képet</FileButton
+			>
 			{#if uploading}
 				<div class="content-center p-4">
 					<p>Feltöltés...</p>
@@ -49,5 +49,5 @@
 		</div>
 	</form>
 
-	<a href="/" class="btn variant-filled-primary m-3 p-auto"> Kész! </a>
+	{#if !uploading}<a href="/" class="btn variant-filled-primary m-3 p-auto"> Kész! </a>{/if}
 </AuthCheck>

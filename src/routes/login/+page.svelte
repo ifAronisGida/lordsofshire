@@ -4,11 +4,11 @@
 </script>
 
 {#if $user}
-	<h2 class="card-title m-3 p-3">Welcome, {$user.displayName}</h2>
-	<p class="text-center text-success m-3 p-3">You are logged in</p>
-	<button class="btn variant-filled-primary m-3 p-3" on:click={signOutSSR}>Sign out</button>
+	<h2 class="card-title m-3 p-3">Üdv, {$user.displayName}</h2>
+	<p class="text-center text-success m-3 p-3">Be is vagy lépve</p>
+	<button class="btn variant-filled-primary m-3 p-3" on:click={signOutSSR}>Kijelentkezés</button>
 {:else}
 	<button class="btn variant-filled-primary m-3 p-3" on:click={signInWithGoogle}
-		>Sign in with Google</button
+		>Belépés Google fiókkal</button
 	>
 {/if}

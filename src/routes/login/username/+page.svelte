@@ -9,7 +9,8 @@
 
 	let debounceTimer: NodeJS.Timeout;
 
-	const re = /^(?=[a-zA-Z0-9._]{3,16}$)(?!.*[_.]{2})[^_.].*[^_.]$/;
+	//regex with hungarian characters
+	const re = /^(?=[a-zA-zíöüóőúűáéÍÖÜÓÚŐŰÁÉ0-9._]{3,16}$)(?!.*[_.]{2})[^_.].*[^_.]$/;
 
 	$: isValid = username?.length > 2 && username.length < 16 && re.test(username);
 	$: isTouched = username.length > 0;
@@ -58,7 +59,7 @@
 </script>
 
 <AuthCheck>
-	<p class="m-3">Your username is @{$userData?.username}</p>
+	<p class="m-3">Játékos név @{$userData?.username}</p>
 
 	<form
 		class="flex justify-center items-center flex-col w-full max-w-md mx-auto"
@@ -77,22 +78,22 @@
 		<div class="my-4 min-h-16 px-8 max-w-full">
 			{#if loading}
 				<p class="text-secondary">
-					Checking availability of @{username}...
+					Ellenőrzés @{username}...
 				</p>
 			{/if}
 
 			{#if !isValid && isTouched}
-				<p class="text-error text-sm">must be 3-16 characters long, alphanumeric only</p>
+				<p class="text-error text-sm">3-16 karakter, csak betűk és számok!</p>
 			{/if}
 
 			{#if isValid && !isAvailable && !loading}
 				<p class="text-warning text-sm">
-					@{username} is not available
+					@{username} nem elérhető
 				</p>
 			{/if}
 
 			{#if isAvailable && isValid && !loading}
-				<button class="btn variant-filled-success">Confirm username @{username} </button>
+				<button class="btn variant-filled-success">@{username} </button>
 			{/if}
 		</div>
 	</form>

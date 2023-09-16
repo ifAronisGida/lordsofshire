@@ -8,3 +8,7 @@ node_modules
 !.env.example
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+lordapp-9747c-firebase-adminsdk-33kmw-81d950ed66.json
+.firebase
+fire*
+.fire*

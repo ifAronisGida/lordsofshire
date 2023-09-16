@@ -10,6 +10,7 @@ import { writable, type Readable, derived } from "svelte/store";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
+  //this is a public key, it's ok to be here
   apiKey: "AIzaSyC3TiezlqS7HRVV-WtD42swGPjQtdayidg",
   authDomain: "lordapp-9747c.firebaseapp.com",
   projectId: "lordapp-9747c",

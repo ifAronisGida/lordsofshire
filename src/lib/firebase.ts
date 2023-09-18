@@ -3,6 +3,7 @@ import { initializeApp } from "firebase/app";
 import { doc, getFirestore, onSnapshot } from "firebase/firestore";
 import { getAuth, onAuthStateChanged, type User } from "firebase/auth";
 import { getStorage } from "firebase/storage";
+import { getDatabase } from "firebase/database"
 import { writable, type Readable, derived } from "svelte/store";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -17,15 +18,17 @@ const firebaseConfig = {
   storageBucket: "lordapp-9747c.appspot.com",
   messagingSenderId: "167638073952",
   appId: "1:167638073952:web:65ba038306ae46c7e63905",
-  measurementId: "G-TVWH4105KZ"
+  measurementId: "G-TVWH4105KZ",
+  databaseURL: "https://lordapp-9747c-default-rtdb.europe-west1.firebasedatabase.app/"
 };
 
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 //export const analytics = getAnalytics(app);
-export const db = getFirestore(app);
+export const firestore = getFirestore(app);
 export const auth = getAuth(app);
 export const storage = getStorage(app);
+export const db = getDatabase(app);
 
 /**
  * @returns a store with the current firebase user
@@ -65,7 +68,7 @@ export function docStore<T>(
 ) {
   let unsubscribe: () => void;
 
-  const docRef = doc(db, path);
+  const docRef = doc(firestore, path);
 
   const { subscribe } = writable<T | null>(null, (set) => {
     unsubscribe = onSnapshot(docRef, (snapshot) => {

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { auth, user } from '$lib/firebase';
+	import { user } from '$lib/firebase';
 	import { signInWithGoogle, signOutSSR } from '$lib/google-auth';
 </script>
 

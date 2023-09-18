@@ -1,6 +1,6 @@
 <script lang="ts">
 	import AuthCheck from '$lib/components/AuthCheck.svelte';
-	import { user, userData, storage, db } from '$lib/firebase';
+	import { user, userData, storage, firestore } from '$lib/firebase';
 	import { FileButton, ProgressBar } from '@skeletonlabs/skeleton';
 	import { doc, updateDoc } from 'firebase/firestore';
 	import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
@@ -16,7 +16,7 @@
 		const result = await uploadBytes(storageRef, file);
 		const url = await getDownloadURL(result.ref);
 
-		await updateDoc(doc(db, 'users', $user!.uid), { photoURL: url });
+		await updateDoc(doc(firestore, 'users', $user!.uid), { photoURL: url });
 		uploading = false;
 	}
 </script>

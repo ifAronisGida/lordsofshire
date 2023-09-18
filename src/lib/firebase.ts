@@ -3,7 +3,6 @@ import { initializeApp } from "firebase/app";
 import { doc, getFirestore, onSnapshot } from "firebase/firestore";
 import { getAuth, onAuthStateChanged, type User } from "firebase/auth";
 import { getStorage } from "firebase/storage";
-import { getDatabase } from "firebase/database"
 import { writable, type Readable, derived } from "svelte/store";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -18,17 +17,15 @@ const firebaseConfig = {
   storageBucket: "lordapp-9747c.appspot.com",
   messagingSenderId: "167638073952",
   appId: "1:167638073952:web:65ba038306ae46c7e63905",
-  measurementId: "G-TVWH4105KZ",
-  databaseURL: "https://lordapp-9747c-default-rtdb.europe-west1.firebasedatabase.app/"
+  measurementId: "G-TVWH4105KZ"
 };
 
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 //export const analytics = getAnalytics(app);
-export const firestore = getFirestore(app);
+export const db = getFirestore(app);
 export const auth = getAuth(app);
 export const storage = getStorage(app);
-export const db = getDatabase(app);
 
 /**
  * @returns a store with the current firebase user
@@ -68,7 +65,7 @@ export function docStore<T>(
 ) {
   let unsubscribe: () => void;
 
-  const docRef = doc(firestore, path);
+  const docRef = doc(db, path);
 
   const { subscribe } = writable<T | null>(null, (set) => {
     unsubscribe = onSnapshot(docRef, (snapshot) => {
@@ -87,9 +84,7 @@ export function docStore<T>(
 
 interface UserData {
   username: string;
-  bio: string;
   photoURL: string;
-  links: unknown[];
 }
 
 export const userData: Readable<UserData | null> = derived(user, ($user, set) => {
@@ -98,4 +93,11 @@ export const userData: Readable<UserData | null> = derived(user, ($user, set) =>
   } else {
     set(null);
   }
-});  
+});
+
+export interface GameData {
+  gameCode: string,
+  isOver: boolean,
+  players: [{ uid: unknown, score: number }],
+}
+

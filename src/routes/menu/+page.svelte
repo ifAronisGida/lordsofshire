@@ -1,14 +1,14 @@
-<script>
+<script lang="ts">
 	import AuthCheck from '$lib/components/AuthCheck.svelte';
 	import CrownSVG from '$lib/components/CrownSVG.svelte';
 </script>
 
 <AuthCheck>
-	<div class="container h-full mx-auto flex justify-center items-center hover:">
+	<div class="container h-full mx-auto flex justify-center items-center">
 		<div class="space-y-10 text-center flex flex-col items-center">
-			<h2 class="h2">Fejlesztés alatt..</h2>
+			<div class="h2 mt-4">Csatlakozz játékhoz vagy hozz létre újat!</div>
 			<!-- Animated Logo -->
-			<div class="animate-spin">
+			<div class="hover:animate-spin">
 				<div class="img-bg" />
 				<div class="">
 					<CrownSVG />

@@ -95,9 +95,4 @@ export const userData: Readable<UserData | null> = derived(user, ($user, set) =>
   }
 });
 
-export interface GameData {
-  gameCode: string,
-  isOver: boolean,
-  players: [{ uid: unknown, score: number }],
-}
 

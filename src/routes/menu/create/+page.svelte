@@ -1,11 +1,22 @@
 <script lang="ts">
-	import type { PageData } from './$types';
-	import { userData, user, db, type GameData } from '$lib/firebase';
+	import { user, db } from '$lib/firebase';
 	import { doc, setDoc } from 'firebase/firestore';
+	import { clipboard } from '@skeletonlabs/skeleton';
 
-	export let data: PageData;
+	let gameCode: string = '';
+
+	interface GameData {
+		password: string;
+		isLive: boolean;
+		players: [{ uid: string; score: number }];
+	}
+
+	function getGameID() {
+		return Date.now().toString(36).toUpperCase();
+	}
 
 	async function createGame() {
+		const gameID = getGameID();
 		const gameData: GameData = {
 			players: [
 				{
@@ -13,15 +24,23 @@
 					score: 0
 				}
 			],
-			gameCode: $user!.uid,
-			isOver: false
+			password: '',
+			isLive: false
 		};
 		console.log(gameData);
-		await setDoc(doc(db, 'games', $user!.uid), gameData);
+		await setDoc(doc(db, 'games', gameID), gameData);
+		gameCode = gameID;
 	}
 </script>
 
 <h2 class="card-title m-4 p-4">Játék indítása</h2>
-<p class="m-4">beállítások...</p>
-<p class="m-4">{$userData?.username}</p>
+
+{#if gameCode}
+	<div class="container flex-row">
+		<p class="m-4" data-clipboard="gameCode">{gameCode}</p>
+		<button class="chip variant-outline-primary" use:clipboard={{ element: 'gameCode' }}
+			>Másolás</button
+		>
+	</div>
+{/if}
 <button class="btn variant-filled-primary m-4 p-4" on:click={createGame}>Indítás</button>

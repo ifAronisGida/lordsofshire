@@ -85,6 +85,7 @@ export function docStore<T>(
 interface UserData {
   username: string;
   photoURL: string;
+  gameID: string;
 }
 
 export const userData: Readable<UserData | null> = derived(user, ($user, set) => {

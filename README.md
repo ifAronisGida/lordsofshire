@@ -1,4 +1,4 @@
-# create-svelte
+# demo
 
 [Hosting URL](https://lordapp-9747c.web.app)
 

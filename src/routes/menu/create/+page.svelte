@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { user, db, type GameData } from '$lib/firebase';
+	import { user, db, type GameData, userData } from '$lib/firebase';
 	import { doc, setDoc, updateDoc } from '@firebase/firestore';
 	import { clipboard, popup, type PopupSettings } from '@skeletonlabs/skeleton';
 
@@ -19,33 +19,38 @@
 	}
 
 	async function createGame() {
-		const gameID = getGameID();
-		const gameData: GameData = {
-			players: [
-				{
-					uid: $user!.uid,
-					score: 0
-				}
-			],
-			password: '',
-			isLive: false
-		};
-		console.log(gameData);
-		await setDoc(doc(db, 'games', gameID), gameData);
-		gameCode = gameID;
+		try {
+			const gameID = getGameID();
+			const gameData: GameData = {
+				players: [
+					{
+						uid: $user!.uid,
+						score: 0
+					}
+				],
+				password: '',
+				isLive: false
+			};
+			console.log(gameData);
+			await setDoc(doc(db, 'games', gameID), gameData);
+			await updateDoc(doc(db, 'users', $user!.uid), { gameID: gameID });
+			gameCode = gameID;
+		} catch (e) {
+			console.error(e);
+		}
 	}
 
 	async function startGame() {
-		await updateDoc(doc(db, 'games', gameCode), { isLive: true });
+		await updateDoc(doc(db, 'games', $userData!.gameID), { isLive: true });
 	}
 </script>
 
 <h2 class="card-title m-4 p-4">Játék indítása</h2>
 
-{#if gameCode}
+{#if $userData?.gameID}
 	<div class="container">
 		<div class="m-4 flex flex-row content-center justify-center">
-			<p data-clipboard="gameCode" class="text-center m-4">{gameCode}</p>
+			<p data-clipboard="gameCode" class="text-center m-4">{$userData.gameID}</p>
 			<button
 				class="chip variant-outline-primary m-4"
 				use:popup={popupClick}
@@ -53,8 +58,10 @@
 			>
 		</div>
 
-		<a href="/game/{gameCode}" class="btn variant-outline-primary m-4 p-4" on:click={startGame}
-			>Indítás</a
+		<a
+			href="/game/{$userData?.gameID}"
+			class="btn variant-filled-primary m-4 p-4"
+			on:click={startGame}>Indítás</a
 		>
 	</div>
 {:else}

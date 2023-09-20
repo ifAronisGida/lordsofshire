@@ -1,18 +1,21 @@
 <script lang="ts">
-	import { user, db } from '$lib/firebase';
-	import { doc, setDoc } from 'firebase/firestore';
-	import { clipboard } from '@skeletonlabs/skeleton';
+	import { user, db, type GameData } from '$lib/firebase';
+	import { doc, setDoc, updateDoc } from '@firebase/firestore';
+	import { clipboard, popup, type PopupSettings } from '@skeletonlabs/skeleton';
+
+	const popupClick: PopupSettings = {
+		event: 'click',
+		target: 'popupClick',
+		placement: 'top'
+	};
 
 	let gameCode: string = '';
 
-	interface GameData {
-		password: string;
-		isLive: boolean;
-		players: [{ uid: string; score: number }];
-	}
-
 	function getGameID() {
-		return Date.now().toString(36).toUpperCase();
+		return (
+			Date.now().toString(36).toUpperCase() +
+			Math.random().toString(36).substring(2, 5).toUpperCase()
+		);
 	}
 
 	async function createGame() {
@@ -31,16 +34,34 @@
 		await setDoc(doc(db, 'games', gameID), gameData);
 		gameCode = gameID;
 	}
+
+	async function startGame() {
+		await updateDoc(doc(db, 'games', gameCode), { isLive: true });
+	}
 </script>
 
 <h2 class="card-title m-4 p-4">Játék indítása</h2>
 
 {#if gameCode}
-	<div class="container flex-row">
-		<p class="m-4" data-clipboard="gameCode">{gameCode}</p>
-		<button class="chip variant-outline-primary" use:clipboard={{ element: 'gameCode' }}
-			>Másolás</button
+	<div class="container">
+		<div class="m-4 flex flex-row content-center justify-center">
+			<p data-clipboard="gameCode" class="text-center m-4">{gameCode}</p>
+			<button
+				class="chip variant-outline-primary m-4"
+				use:popup={popupClick}
+				use:clipboard={{ element: 'gameCode' }}>Másolás</button
+			>
+		</div>
+
+		<a href="/game/{gameCode}" class="btn variant-outline-primary m-4 p-4" on:click={startGame}
+			>Indítás</a
 		>
 	</div>
+{:else}
+	<button class="btn variant-filled-primary m-4 p-4" on:click={createGame}>Létrehozás</button>
 {/if}
-<button class="btn variant-filled-primary m-4 p-4" on:click={createGame}>Indítás</button>
+
+<div class="card p-4 variant-filled-primary" data-popup="popupClick">
+	<p>Kód másolva!</p>
+	<div class="arrow variant-filled-primary" />
+</div>

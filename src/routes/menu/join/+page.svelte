@@ -29,6 +29,10 @@
 			if (gameStarted) {
 				const game = await getDoc(doc(db, 'games', gameID));
 				if (game.data()) {
+					if (game.data()!.players.count >= 3) {
+						errorMessage = 'A játék már tele van!';
+						return;
+					}
 					await updateDoc(doc(db, 'games', gameID), {
 						players: [...game.data()!.players, { uid: $user!.uid, score: 0 }]
 					});
@@ -37,6 +41,7 @@
 					goto(`/game/${gameID}`);
 				}
 			} else {
+				//if game is not yet started, show error message
 				errorMessage = 'A játék még nem indult el!';
 			}
 		} catch (e) {

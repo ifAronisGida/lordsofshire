@@ -25,7 +25,7 @@
 		>
 		<h1 class="text-center m-4">Játék {data.gameid}</h1>
 		<p class="text-center m-4">Játékosok: {JSON.stringify($game?.players)}</p>
-		<p class="text-center m-4">Játék indítva: {$game?.isLive}</p>
+		<p class="text-center m-4">Várakozás játkosokra {$game?.waitingForPlayers}</p>
 	{:else}
 		<h1 class="text-center m-4">Játék vége!</h1>
 	{/if}

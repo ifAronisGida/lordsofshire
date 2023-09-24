@@ -29,7 +29,8 @@
 					}
 				],
 				password: '',
-				isLive: false
+				isLive: false,
+				waitingForPlayers: true
 			};
 			console.log(gameData);
 			await setDoc(doc(db, 'games', gameID), gameData);

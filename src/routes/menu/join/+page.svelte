@@ -29,9 +29,23 @@
 			if (gameStarted) {
 				const game = await getDoc(doc(db, 'games', gameID));
 				if (game.data()) {
-					if (game.data()!.players.count >= 3) {
+					if (game.data()!.players.length >= 2) {
 						errorMessage = 'A játék már tele van!';
 						return;
+					} else if (game.data()!.players.length == 1) {
+						console.log('triggering game start');
+						await updateDoc(doc(db, 'games', gameID), {
+							waitingForPlayers: false
+						});
+						const response = await fetch(`/api/${gameID}`, {
+							method: 'PATCH',
+							headers: {
+								'Content-Type': 'application/json'
+								// 'CSRF-Token': csrfToken  // HANDLED by sveltekit automatically
+							},
+							body: JSON.stringify({ gameAction: 'start' })
+						});
+						console.log(response);
 					}
 					await updateDoc(doc(db, 'games', gameID), {
 						players: [...game.data()!.players, { uid: $user!.uid, score: 0 }]

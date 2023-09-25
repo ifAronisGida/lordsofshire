@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { GameData } from '$lib/types/game.ts';
 	import { user, db, userData } from '$lib/firebase';
-	import { doc, setDoc, updateDoc } from '@firebase/firestore';
 	import { clipboard, popup, type PopupSettings } from '@skeletonlabs/skeleton';
 
 	const popupClick: PopupSettings = {
@@ -31,7 +30,10 @@
 					}
 				],
 				password: '',
-				isLive: false
+				isLive: false,
+				question: { question: '', answers: [] },
+				turn: 0,
+				remainingSeconds: 0
 			};
 
 			//call create endpoint to create game

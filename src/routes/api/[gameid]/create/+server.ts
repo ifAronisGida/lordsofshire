@@ -9,12 +9,12 @@ export const POST: RequestHandler = async ({ request, params, cookies }) => {
   const { gameid } = params;
   const { gameData }: { gameData: GameData } = requestJSON;
 
-  try {
-    const sessionCookie = cookies.get('__session');
-    adminAuth.verifySessionCookie(sessionCookie!).then((decodedClaims) => {
-      console.log(decodedClaims.uid);
-    });
-  } catch (error) { console.error(error); }
+  // try {
+  //   const sessionCookie = cookies.get('__session');
+  //   adminAuth.verifySessionCookie(sessionCookie!).then((decodedClaims) => {
+  //     console.log(decodedClaims.uid);
+  //   });
+  // } catch (error) { console.error(error); }
 
 
 

@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import { db, userData, user } from '$lib/firebase';
-	import { doc, getDoc, updateDoc } from 'firebase/firestore';
+	import { userData, user } from '$lib/firebase';
 	import { goto } from '$app/navigation';
 
 	export let data: PageData;
@@ -17,7 +16,7 @@
 					'Content-Type': 'application/json'
 					// 'CSRF-Token': csrfToken  // HANDLED by sveltekit automatically
 				},
-				body: JSON.stringify({ uid: $user!.uid, username: $userData!.username })
+				body: JSON.stringify({ uid: $user?.uid, username: $userData?.username })
 			});
 
 			if (response.status !== 200) {

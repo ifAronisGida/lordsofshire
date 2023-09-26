@@ -4,7 +4,8 @@ export interface GameData {
   isLive: boolean;
   players: Player[];
   question: { question: string; answers: QuestionAnswer[] };
-  remainingSeconds: number;
+  turnLengthSeconds: number;
+  maxRounds: number;
 }
 
 interface QuestionAnswer {
@@ -16,6 +17,7 @@ interface Player {
   uid: string;
   score: number;
   username: string;
+  ready: boolean;
 }
 
 export function isGameData(object: any): object is GameData {

@@ -26,14 +26,16 @@
 					{
 						uid: $user!.uid,
 						score: 0,
-						username: $userData!.username
+						username: $userData!.username,
+						ready: false
 					}
 				],
 				password: '',
 				isLive: false,
 				question: { question: '', answers: [] },
 				turn: 0,
-				remainingSeconds: 0
+				turnLengthSeconds: 8,
+				maxRounds: 3
 			};
 
 			//call create endpoint to create game

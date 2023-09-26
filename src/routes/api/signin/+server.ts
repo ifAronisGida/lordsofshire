@@ -6,7 +6,10 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 
   const { idToken } = await request.json();
 
+  //TODO: log user out if no valid session cookie
   const expiresIn = 60 * 60 * 24 * 5 * 1000; // 5 days
+  //const expiresIn = 5 * 1000; // 5 sec
+
 
   const decodedIdToken = await adminAuth.verifyIdToken(idToken);
 

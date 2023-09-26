@@ -16,15 +16,18 @@
 
 	let isReady = false;
 	let remainingSeconds = 0;
+	let selectedAnswer = '';
 	$: turnLengthSeconds = $game?.turnLengthSeconds || 0;
 	$: turn = $game?.turn;
 
-	//run resetTimer() when turn changes
-	$: turn && resetTimer();
+	//reset round when turn changes
+	$: turn && resetRound();
 
-	function resetTimer() {
+	function resetRound() {
 		remainingSeconds = turnLengthSeconds;
+		selectedAnswer = '';
 
+		//count down remaining time
 		let timerId = setInterval(() => {
 			remainingSeconds--;
 			console.log(remainingSeconds);
@@ -61,7 +64,7 @@
 		}, 1000);
 	}
 
-	async function sendAnwer() {
+	async function sendAnwer(answerID: string) {
 		clearTimeout(debounceTimer);
 
 		debounceTimer = setTimeout(async () => {
@@ -72,17 +75,18 @@
 						'Content-Type': 'application/json'
 						// 'CSRF-Token': csrfToken  // HANDLED by sveltekit automatically
 					},
-					body: JSON.stringify({ answer: isReady, uid: $user?.uid })
+					body: JSON.stringify({ answerID: answerID, uid: $user?.uid })
 				});
 
 				if (response.status !== 200) {
 					const { message } = await response.json();
 					throw new Error(message);
 				}
+				selectedAnswer = answerID;
 			} catch (e) {
 				console.error(e.message);
 			}
-		}, 500);
+		}, 1);
 	}
 </script>
 
@@ -95,7 +99,12 @@
 		<h3 class="text-center m-4">{$game.question.question}</h3>
 		<div class="flex flex-col">
 			{#each $game.question.answers as answer}
-				<p class="btn variant-form-material m-4">{answer.value}</p>
+				<button
+					class="btn {selectedAnswer === answer.id
+						? 'variant-filled-success'
+						: 'variant-ringed-tertiary'} m-4"
+					on:click={() => sendAnwer(answer.id)}>{answer.value}</button
+				>
 			{/each}
 		</div>
 		<RemainingTimeCounter {remainingSeconds} maxSeconds={turnLengthSeconds} />

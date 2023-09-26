@@ -27,7 +27,8 @@
 						uid: $user!.uid,
 						score: 0,
 						username: $userData!.username,
-						ready: false
+						ready: false,
+						answerID: ''
 					}
 				],
 				password: '',

@@ -9,7 +9,7 @@ export interface GameData {
 }
 
 interface QuestionAnswer {
-  id: number;
+  id: string;
   value: string;
 }
 
@@ -18,8 +18,9 @@ interface Player {
   score: number;
   username: string;
   ready: boolean;
+  answerID: string;
 }
 
 export function isGameData(object: any): object is GameData {
-  return 'password' in object && 'isLive' in object && 'players' in object;
+  return 'password' in object && 'isLive' in object && 'players' in object && 'turn' in object && 'question' in object && 'turnLengthSeconds' in object && 'maxRounds' in object;
 }

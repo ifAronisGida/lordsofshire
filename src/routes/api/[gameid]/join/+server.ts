@@ -24,7 +24,7 @@ export const PATCH: RequestHandler = async ({ request, params }) => {
 
   if (gameData.isLive) throw error(400, 'Game has already started!');
 
-  gameData.players.push({ uid, score: 0, username, ready: false });
+  gameData.players.push({ uid, score: 0, username, ready: false, answerID: '' });
   await gameRef.set(gameData);
 
   return json({ status: `Player ${uid} joined game ${gameid}!` });

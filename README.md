@@ -2,9 +2,8 @@
 
 [Hosting URL](https://lordapp-9747c.web.app)
 
-# TODO
+# ISSUES
 
-- user is creating game -> show game in creation
-- user can join to one game only
-- only load game url if user is part of game
+- validate user requests uid when sending game data (don't let users change other users' answers)
+- refuse requests if game state is currently being calculated (don't let gamelogic to crash when spamming requests)
 

@@ -16,7 +16,11 @@
 					'Content-Type': 'application/json'
 					// 'CSRF-Token': csrfToken  // HANDLED by sveltekit automatically
 				},
-				body: JSON.stringify({ uid: $user?.uid, username: $userData?.username })
+				body: JSON.stringify({
+					uid: $user?.uid,
+					username: $userData?.username,
+					photoURL: $userData?.photoURL
+				})
 			});
 
 			if (response.status !== 200) {

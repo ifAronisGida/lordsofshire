@@ -19,6 +19,7 @@ interface Player {
   username: string;
   ready: boolean;
   answerID: string;
+  photoURL: string;
 }
 
 export function isGameData(object: any): object is GameData {

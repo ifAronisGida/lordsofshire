@@ -12,7 +12,7 @@ export const GET: RequestHandler = async () => {
 export const PATCH: RequestHandler = async ({ request, params }) => {
   const requestJSON = await request.json();
   const { gameid } = params;
-  const { uid, username } = requestJSON
+  const { uid, username, photoURL } = requestJSON
 
   const gameRef = adminDB.doc('games/' + gameid);
   const gameDoc = await gameRef.get();
@@ -24,7 +24,7 @@ export const PATCH: RequestHandler = async ({ request, params }) => {
 
   if (gameData.isLive) throw error(400, 'Game has already started!');
 
-  gameData.players.push({ uid, score: 0, username, ready: false, answerID: '' });
+  gameData.players.push({ uid, score: 0, username, ready: false, answerID: '', photoURL: photoURL });
   await gameRef.set(gameData);
 
   return json({ status: `Player ${uid} joined game ${gameid}!` });

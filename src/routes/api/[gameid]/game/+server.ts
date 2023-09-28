@@ -4,6 +4,15 @@ import { json, error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { setTimeout } from 'timers/promises';
 
+// interface GameState {
+//   gameID: string;
+//   busy: boolean;
+// }
+
+
+//TODO: validate gamestate from db
+//let gameStates: GameState[] =[];
+
 export const GET: RequestHandler = async () => {
   return new Response();
 };
@@ -31,10 +40,17 @@ export const PATCH: RequestHandler = async ({ request, params }) => {
   const updatedGameDoc = await gameRef.get();
   const updatedGameData = updatedGameDoc.data() as GameData;
 
+  //check if all players are ready and start game if everyone is ready for 3 seconds
+  for (let i = 0; i < 3; i++) {
+    const updatedGameDoc = await gameRef.get();
+    const updatedGameData = updatedGameDoc.data() as GameData;
+    if (updatedGameData.players.find(player => !player.ready)) return json({ status: 'Waiting for other players...' });
+    await setTimeout(1000);
+  }
 
-  if (updatedGameData.players.find(player => !player.ready)) return json({ status: 'Waiting for other players...' });
 
   startNextRound(gameid, updatedGameData.turnLengthSeconds, updatedGameData.maxRounds);
+  //gameStates.push({ gameID: gameid, busy: false });
 
   return json({ status: 'Game starting...' });
 }
@@ -44,6 +60,9 @@ export const POST: RequestHandler = async ({ request, params }) => {
   const requestJSON = await request.json();
   const { gameid } = params;
   const { uid, answerID } = requestJSON
+
+  //check if game is busy
+  //if (gameStates.find(gameState => gameState.gameID === gameid)?.busy) throw error(400, 'Game is busy!');
 
   const gameRef = adminDB.doc('games/' + gameid);
   const gameDoc = await gameRef.get();
@@ -73,6 +92,8 @@ async function startNextRound(gameID: string, turnLengthSeconds: number, maxRoun
   // console.log(questionList);
 
   if (gameData.turn === maxRounds) {
+    //save game data before ending game
+    await gameRef.set(gameData);
     await endGame(gameID);
     return;
   }

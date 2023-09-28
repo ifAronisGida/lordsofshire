@@ -30,7 +30,7 @@
 		//count down remaining time
 		let timerId = setInterval(() => {
 			remainingSeconds--;
-			console.log(remainingSeconds);
+			//console.log(remainingSeconds);
 		}, 1000);
 
 		setTimeout(() => {
@@ -69,29 +69,34 @@
 
 		debounceTimer = setTimeout(async () => {
 			try {
-				const response = await fetch(`/api/${data.gameid}/game`, {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json'
-						// 'CSRF-Token': csrfToken  // HANDLED by sveltekit automatically
-					},
-					body: JSON.stringify({ answerID: answerID, uid: $user?.uid })
-				});
+				if (remainingSeconds > 0) {
+					const response = await fetch(`/api/${data.gameid}/game`, {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json'
+							// 'CSRF-Token': csrfToken  // HANDLED by sveltekit automatically
+						},
+						body: JSON.stringify({ answerID: answerID, uid: $user?.uid })
+					});
 
-				if (response.status !== 200) {
-					const { message } = await response.json();
-					throw new Error(message);
+					if (response.status !== 200) {
+						const { message } = await response.json();
+						throw new Error(message);
+					}
+					selectedAnswer = answerID;
 				}
-				selectedAnswer = answerID;
 			} catch (e) {
 				console.error(e.message);
 			}
-		}, 1);
+		}, 100);
 	}
 </script>
 
 <AuthCheck>
-	{#if $game?.players}<PlayerList players={$game.players} />{/if}
+	{#if $game?.players}<PlayerList
+			players={$game.players}
+			endScreen={$game?.turn > 0 && !$game?.isLive}
+		/>{/if}
 
 	<h1 class="text-center m-4">Játék {data.gameid}</h1>
 	{#if $game?.isLive && $game?.question && $game?.turn > 0}

@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { ProgressRadial } from '@skeletonlabs/skeleton';
+	import { ProgressBar } from '@skeletonlabs/skeleton';
+
 	export let remainingSeconds: number;
 	export let maxSeconds: number;
 </script>
@@ -9,6 +11,7 @@
 		value={100 - remainingSeconds * (100 / maxSeconds)}
 		stroke={20}
 		meter="stroke-warning-500"
-		track="stroke-tertiary-500/30">{remainingSeconds}</ProgressRadial
-	>
+		track="stroke-tertiary-500/30"
+		>{remainingSeconds}
+	</ProgressRadial>
 </div>

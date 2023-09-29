@@ -1,16 +1,13 @@
+import type { QuestionAnswer } from "./question";
+
 export interface GameData {
   turn: number;
   password: string;
   isLive: boolean;
   players: Player[];
-  question: { question: string; answers: QuestionAnswer[] };
+  question: { question: string; id: string; answers: QuestionAnswer[] };
   turnLengthSeconds: number;
   maxRounds: number;
-}
-
-interface QuestionAnswer {
-  id: string;
-  value: string;
 }
 
 interface Player {

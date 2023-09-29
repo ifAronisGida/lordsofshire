@@ -8,7 +8,7 @@
 	$: players = players.sort((a, b) => b.score - a.score);
 </script>
 
-<div class="{!endScreen ? 'absolute bottom-0' : ''} bg-neutral text-neutral-content m-5">
+<div class="{!endScreen ? 'absolute bottom-0 m-5' : 'pt-10 m-10'} bg-neutral text-neutral-content">
 	<div class="items-center text-center">
 		{#each players as player, index}
 			<div class="flex flex-col items-center">

@@ -28,12 +28,13 @@
 						score: 0,
 						username: $userData!.username,
 						ready: false,
-						answerID: ''
+						answerID: '',
+						photoURL: $userData!.photoURL
 					}
 				],
 				password: '',
 				isLive: false,
-				question: { question: '', answers: [] },
+				question: { question: '', id: '', answers: [] },
 				turn: 0,
 				turnLengthSeconds: 8,
 				maxRounds: 3

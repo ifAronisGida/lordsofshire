@@ -36,9 +36,16 @@
 				isLive: false,
 				question: { question: '', id: '', answers: [] },
 				turn: 0,
-				turnLengthSeconds: 8,
-				maxRounds: 3
+				turnLengthSeconds: 20,
+				maxRounds: 5
 			};
+
+			// await fetch(`/api/${gameID}/questions`, {
+			// 	method: 'GET',
+			// 	headers: {
+			// 		'Content-Type': 'application/json'
+			// 	}
+			// });
 
 			//call create endpoint to create game
 			const createResponse = await fetch(`/api/${gameID}/create`, {

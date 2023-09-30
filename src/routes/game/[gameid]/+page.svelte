@@ -6,6 +6,7 @@
 	import AuthCheck from '$lib/components/AuthCheck.svelte';
 	import PlayerList from '$lib/components/PlayerList.svelte';
 	import RemainingTimeCounter from '$lib/components/RemainingTimeCounter.svelte';
+	import Device from 'svelte-device-info';
 
 	export let data: PageData;
 
@@ -97,10 +98,8 @@
 			players={$game.players}
 			endScreen={$game?.turn > 0 && !$game?.isLive}
 		/>{/if}
-
-	<h1 class="text-center m-4">Játék {data.gameid}</h1>
 	{#if $game?.isLive && $game?.question && $game?.turn > 0}
-		<h2 class="text-center m-4">{$game.turn}. kérdés</h2>
+		<h4 class="text-center m-4">{$game?.turn}/{$game?.maxRounds}</h4>
 		<h3 class="text-center m-4">{$game.question.question}</h3>
 		<div class="flex flex-col">
 			{#each $game.question.answers as answer}
@@ -111,8 +110,8 @@
 					on:click={() => sendAnwer(answer.id)}>{answer.value}</button
 				>
 			{/each}
+			<RemainingTimeCounter {remainingSeconds} maxSeconds={turnLengthSeconds} />
 		</div>
-		<RemainingTimeCounter {remainingSeconds} maxSeconds={turnLengthSeconds} />
 	{:else if $game?.turn === 0}
 		<h2 class="text-center">A játék még nem kezdődött el.</h2>
 

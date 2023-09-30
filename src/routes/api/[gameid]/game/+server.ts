@@ -88,6 +88,7 @@ async function startNextRound(gameID: string, turnLengthSeconds: number, maxRoun
   const gameDoc = await gameRef.get();
   const gameData = gameDoc.data() as GameData;
 
+
   //evaluate correct ansers starting from turn 1
   if (gameData.turn > 0) {
 
